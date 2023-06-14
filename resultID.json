@@ -1,0 +1,40 @@
+{
+    "ID": {
+        "price": 0.31900000000000023,
+        "amount": 1,
+        "parts": {
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 270
+            },
+            "OR Gate": {
+                "total cost": 0.004,
+                "amount": 1
+            },
+            "Text": {
+                "total cost": 0.0,
+                "amount": 15
+            },
+            "Splitter": {
+                "total cost": 0.0,
+                "amount": 46
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 1
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 99
+            },
+            "NOR Gate": {
+                "total cost": 0.013999999999999999,
+                "amount": 2
+            },
+            "AND Gate": {
+                "total cost": 0.3010000000000002,
+                "amount": 38
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "test": {
+        "parts": {
+            "Transistor": {
+                "total cost": 0.002,
+                "amount": 1
+            },
+            "NOT Gate": {
+                "total cost": 0.064,
+                "amount": 1
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 3
+            },
+            "Controlled Buffer": {
+                "total cost": 0.096,
+                "amount": 1
+            }
+        },
+        "price": 0.162,
+        "amount": 1
+    }
+}

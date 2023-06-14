@@ -1,0 +1,70 @@
+{
+    "unsignedMult": {
+        "amount": 1,
+        "price": 4.8740000000000006,
+        "parts": {
+            "Multiplier": {
+                "amount": 1,
+                "total cost": 4.096
+            },
+            "Constant": {
+                "amount": 8,
+                "total cost": 0.0
+            },
+            "Text": {
+                "amount": 7,
+                "total cost": 0.0
+            },
+            "MUX2bits": {
+                "amount": 1,
+                "total cost": 0.394
+            },
+            "Tunnel": {
+                "amount": 42,
+                "total cost": 0.0
+            },
+            "Splitter": {
+                "amount": 18,
+                "total cost": 0.0
+            },
+            "Pin": {
+                "amount": 4,
+                "total cost": 0.0
+            },
+            "Wire": {
+                "amount": 63,
+                "total cost": 0.0
+            },
+            "Adder": {
+                "amount": 3,
+                "total cost": 0.384
+            }
+        }
+    },
+    "MUX2bits": {
+        "amount": 1,
+        "price": 0.394,
+        "parts": {
+            "Decoder": {
+                "amount": 1,
+                "total cost": 0.01
+            },
+            "Tunnel": {
+                "amount": 18,
+                "total cost": 0.0
+            },
+            "Controlled Buffer": {
+                "amount": 4,
+                "total cost": 0.384
+            },
+            "Pin": {
+                "amount": 6,
+                "total cost": 0.0
+            },
+            "Wire": {
+                "amount": 29,
+                "total cost": 0.0
+            }
+        }
+    }
+}

@@ -1,0 +1,955 @@
+\documentclass[letterpaper,11pt]{scrartcl}
+\usepackage{tabularx}
+\usepackage{tabulary}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage[margin=0.7in]{geometry}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+
+\hypersetup{colorlinks,urlcolor=blue,citecolor=blue,linkcolor=black}
+
+\title{Proyecto de Arquitectura de Computadoras \\ \small{Curso 2016-2017}}
+\date{}
+\author{}
+
+\begin{document}
+
+\pagestyle{empty}
+
+\setlength{\parskip}{0.1em}
+
+\maketitle
+\thispagestyle{empty}
+
+\vspace{-2.5cm}
+\begin{center}
+ \huge{\textbf{S-MIPS}}
+\end{center}
+\vspace{0.5cm}
+
+\begin{center}
+\includegraphics[height=1.5in]{./mips.jpg}\\
+Procesador S-MIPS
+\end{center}
+
+\section*{Introducción}
+
+El proyecto consiste en diseñar en LogiSim un procesador que implemente la arquitectura 
+de juegos de instrucciones S-MIPS (Simplified-MIPS).
+
+S-MIPS es una arquitectura de 32 bits.  El procesador tiene 32 registros de
+32 bits, nombrados R0 a R31, de propósito general, de ellos R0 siempre tiene el valor constante 0
+independientemente de las operaciones que se realizen sobre él y R31 (SP)
+que actúa como puntero de la pila (stack pointer). Cuenta con dos registros adicionales
+\textbf{Hi} y  \textbf{Lo} donde se almacena el resultado de la división y la multiplicación.
+
+El procesador debe implementarse en el módulo \textbf{S-MIPS} del circuito \textbf{S-MIPS Board} que se brinda.
+No debe modificar el circuto \textbf{RAM} ni el circuto \textbf{S-MIPS Board}. Durante la evaluación se utilizarán
+estos circuitos tal y como se les entregó.
+
+\section*{Instrucciones y su formato}
+
+\subsection*{Notas generales:}
+\begin{itemize}
+    \item{ \textbf{R\textsubscript{s}}, \textbf{R\textsubscript{t}} y \textbf{R\textsubscript{d}} especifican registros de propósito general.}
+    \item{ Un elemento entre corchetes (\textbf{[ ]}) indica "el contenido de". Por ejemplo $[R3] + [R22]$ se refiere a 
+    la suma de los valores almacenados en los registros R3 y R22.}
+    \item{ \textbf{[PC]} especifica la dirección de la instrucción en ejecución. Por ejemplo saltar a la próxima instrucción es 
+    $[PC] = [PC] + 4$ }
+    \item \textbf{I} se refiere a los bits de la instrucción y el subindice indica a cuales de estos bits se refiere. $[I\textsubscript{15..0}]$ 
+    se refiere al contenido de los 16 primeros bits de la instrucción, que en el caso de las instrucciones de tipo I es la constante.
+    \item \textbf{ $\Vert$ }  indica la concatenación de bits.
+    \item Los sobreíndices indican la repetición de un valor binario. $0\textsuperscript{7}$ se refiere a: \verb|0000000|.
+    \item \textbf{M\{I\}} se refiere a los 32 bits almacenados en la memoria RAM en la dirección divisible por 4
+    más cercana al valor de I. ($I-I\%4$).
+\end{itemize}
+
+Las instrucciones de S-MIPS tienen una longitud constante de 32 bits. Hay 3 formatos de
+instrucciones distintos:
+
+\begin{table*}[!htbp]
+\begin{small}
+\begin{verbatim}
+                                     6       5      5      5      5        6
+                                +---------+------+------+------+-----+-------------+
+           Formato de tipo R:   | Op-code |  Rs  |  Rt  |  Rd  |  X  |  Funct-code |
+                                +---------+------+------+------+-----+-------------+
+                                     6       5      5               16
+                                +---------+------+------+--------------------------+
+           Formato de tipo I:   | Op-code |  Rs  |  Rt  | constante(complemento 2) |
+                                +---------+------+------+--------------------------+
+                                     6                       26
+                                +---------+----------------------------------------+
+           Formato de tipo J:   | Op-code |            destino_salto               |
+                                +---------+----------------------------------------+
+                                |                                                  |
+                            bit 31                                             bit 0
+
+\end{verbatim} 
+\end{small}
+\end{table*}
+
+\section*{Instrucciones}
+% ---------------------------------- nop --------------------------------------
+
+\subsubsection*{No operation: \textbf{nop}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 000000 | 00000 | 00000 | 00000 | 00000 | 000000 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$ PC \leftarrow [PC] + 4 $
+
+Ensamblador: $nop$
+
+% ---------------------------------- add --------------------------------------
+
+\subsubsection*{Addition: \textbf{add}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 000000 |   Rs  |   Rt  |   Rd  | 00000 | 100000 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$R_{d} \leftarrow [R_{s}] + [R_{t}]$
+
+$PC \leftarrow [PC] + 4$
+
+Ensamblador: $add\hspace{5pt}R_{d}, R_{s}, R_{t}$
+
+% ---------------------------------- sub --------------------------------------
+
+\subsubsection*{Subtract: \textbf{sub}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 000000 |   Rs  |   Rt  |   Rd  | 00000 | 100010 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$R_{d} \leftarrow [R_{s}] - [R_{t}]$
+
+$PC \leftarrow [PC] + 4$
+
+Ensamblador: $sub\hspace{5pt}R_{d}, R_{s}, R_{t}$
+
+% ---------------------------------- mul --------------------------------------
+
+\subsubsection*{Multiply: \textbf{mult}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 000000 |   Rs  |   Rt  | 00000 | 00000 | 011000 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$Hi || Lo \leftarrow [R_{s}] * [R_{t}]$
+
+$PC \leftarrow [PC] + 4$
+
+Ensamblador: $mult\hspace{5pt}R_{s}, R_{t}$
+
+% ---------------------------------- mulu --------------------------------------
+
+\subsubsection*{Unsigned multiply: \textbf{mulu}}
+
+Idéntica a la instucción \textbf{mult} excepto:
+
+- Funct-code = 011001
+
+- El contenido de $R_{s}$ y $R_{t}$ se considera como enteros sin signo.
+
+% ----------------------------------div --------------------------------------
+
+\subsubsection*{Divide: \textbf{div}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 000000 |   Rs  |   Rt  | 00000 | 00000 | 011010 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$Lo \leftarrow [R_{s}] / [R_{t}]$
+
+$Hi \leftarrow [R_{s}] mod [R_{t}]$
+
+$PC \leftarrow [PC] + 4$
+
+Ensamblador: $div\hspace{5pt}R_{s}, R_{t}$
+
+% ---------------------------------- divu --------------------------------------
+
+\subsubsection*{Unsigned divide: \textbf{divu}}
+
+Idéntica a la instucción \textbf{div} excepto:
+
+- Funct-code = 011011
+
+- El contenido de $R_{s}$ y $R_{t}$ se considera como enteros sin signo.
+
+% ---------------------------------- slt --------------------------------------
+
+\subsubsection*{Set less than: \textbf{slt}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 000000 |   Rs  |   Rt  |   Rd  | 00000 | 101010 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+si   $[R_{s}] < [R_{t}]$ entonces $R_{d} \leftarrow 0^{31} || 1$
+
+sino $R_{d} \leftarrow 0^{32}$
+
+$PC \leftarrow [PC] + 4$
+
+Ensamblador: $slt\hspace{5pt}R_{d}, R_{s}, R_{t}$
+
+% ---------------------------------- sltu --------------------------------------
+
+\subsubsection*{Unsigned set less than: \textbf{sltu}}
+
+Idéntica a la instucción \textbf{slt} excepto:
+
+- Funct-code = 101011
+
+- El contenido de $R_{s}$ y $R_{t}$ se considera como enteros sin signo.
+
+% ---------------------------------- and --------------------------------------
+
+\subsubsection*{Logical and: \textbf{and}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 000000 |   Rs  |   Rt  |   Rd  | 00000 | 100100 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$R_{d} \leftarrow [R_{s}] AND [R_{t}]$
+
+$PC \leftarrow [PC] + 4$
+
+Ensamblador: $and\hspace{5pt}R_{d}, R_{s}, R_{t}$
+
+% ---------------------------------- or, nor, xor --------------------------------------
+
+\subsubsection*{Logical or, nor, xor: \textbf{or, nor, xor}}
+
+Idénticas a la instucción \textbf{and} excepto:
+
+- Funct-code = 100101 para la instruccion \textbf{or}
+
+- Funct-code = 100111 para la instruccion \textbf{nor}
+
+- Funct-code = 101000 para la instruccion \textbf{xor}
+
+- Se realiza la función lógica apropiada en vez de \textbf{and}.
+
+% ---------------------------------- addi --------------------------------------
+
+\subsubsection*{Addition inmediate: \textbf{addi}}
+
+\begin{verbatim}
+                     +---------+------+------+--------------------------+
+Formato de tipo I:   | 001000  |  Rs  |  Rt  |        constante         |
+                     +---------+------+------+--------------------------+
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$R_{t} \leftarrow [R_{s}] + ( [I_{15}]^{16} || [I_{15..0}] )$
+
+$PC \leftarrow [PC] + 4$
+
+Ensamblador: $addi\hspace{5pt}R_{t}, R_{s}, constante$, por ejemplo: $addi\hspace{5pt}R_{3}, R_{8}, 34$
+
+% ---------------------------------- slti --------------------------------------
+
+\subsubsection*{Set less than immediate: \textbf{slti}}
+
+\begin{verbatim}
+                     +--------+-------+-------+------------------------+ 
+Formato de tipo I:   | 001010 |   Rs  |   Rt  |       constante        | 
+                     +--------+-------+-------+------------------------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+si $[R_{s}] < ([I_{15}]^{16}||[I_{15..0}])$ entonces $R_{t} \leftarrow 0^{31} || 1$
+
+sino $R_{t} \leftarrow 0^{32}$
+
+$PC \leftarrow [PC] + 4$
+
+Ensamblador: $slti\hspace{5pt}R_{t}, R_{s}, constante$
+
+% ---------------------------------- sltiu --------------------------------------
+
+\subsubsection*{Set less than immediate unsigned: \textbf{sltiu}}
+
+Idéntica a la instucción \textbf{slti} excepto:
+
+- Funct-code = 001011
+
+- El contenido de $R_{s}$ y $R_{t}$ se considera como enteros sin signo.
+
+
+% ---------------------------------- andi --------------------------------------
+
+\subsubsection*{Logical and immediate: \textbf{andi}}
+
+\begin{verbatim}
+                     +--------+-------+-------+------------------------+ 
+Formato de tipo I:   | 001100 |   Rs  |   Rt  |       constante        | 
+                     +--------+-------+-------+------------------------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$R_{t} \leftarrow [R_{s}]AND (0^{16} || [I_{15..0}])$
+
+$PC \leftarrow [PC] + 4$
+
+Ensamblador: $andi\hspace{5pt}R_{t}, R_{s}, constante$
+
+% ---------------------------------- ori, xori --------------------------------------
+
+\subsubsection*{Logical or immediate \& xor immediate: \textbf{ori, xori}}
+
+Idénticas a la instucción \textbf{andi} excepto:
+
+- Funct-code = 001101 para la instruccion \textbf{ori}
+
+- Funct-code = 001110 para la instruccion \textbf{xori}
+
+- Se realiza la función lógica apropiada en vez del \textbf{and} lógico.
+
+% ---------------------------------- lw --------------------------------------
+
+\subsubsection*{Load word: \textbf{lw}}
+
+\begin{verbatim}
+                     +--------+-------+-------+------------------------+ 
+Formato de tipo I:   | 100011 |   Rs  |   Rt  |        offset          | 
+                     +--------+-------+-------+------------------------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$R_{t} \leftarrow M\{[R_{s}] + [I_{15}]^{16} || [I_{15..0}] \}$
+
+$PC \leftarrow [PC] + 4$
+
+Ensamblador: $lw\hspace{5pt}R_{t}, offset(R_{s})$ por ejemplo: $lw\hspace{5pt}R_{3}, 16(R_{0})$
+
+% ---------------------------------- sw --------------------------------------
+
+\subsubsection*{Store word: \textbf{sw}}
+
+\begin{verbatim}
+                     +--------+-------+-------+------------------------+ 
+Formato de tipo I:   | 101011 |   Rs  |   Rt  |        offset          | 
+                     +--------+-------+-------+------------------------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$M\{[R_{s}] + [I_{15}]^{16} || [I_{15..0}] \} \leftarrow [R_{t}] $
+
+$PC \leftarrow [PC] + 4$
+
+Ensamblador: $sw\hspace{5pt}R_{t}, offset(R_{s})$
+
+% ---------------------------------- pop --------------------------------------
+
+\subsubsection*{Pop from stack: \textbf{pop}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 111000 | 00000 | 00000 |  Rd   | 00000 | 000000 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$R_d \leftarrow M\{[SP]\}$
+
+$SP \leftarrow [SP] + 4$
+
+$PC \leftarrow [PC] + 4$
+
+Ensamblador: $pop\hspace{5pt}R_{d}$
+
+% ---------------------------------- push --------------------------------------
+
+\subsubsection*{Push to stack: \textbf{push}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 111000 |   Rs  | 00000 | 00000 | 00000 | 000001 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$SP \leftarrow [SP] - 4$
+
+$M\{[SP]\} \leftarrow R_s $
+
+$PC \leftarrow [PC] + 4$
+
+Ensamblador: $push\hspace{5pt}R_{s}$
+
+% ---------------------------------- beq --------------------------------------
+
+\subsubsection*{Branch on equal: \textbf{beq}}
+
+\begin{verbatim}
+                     +--------+-------+-------+------------------------+ 
+Formato de tipo I:   | 000100 |   Rs  |   Rt  |        offset          | 
+                     +--------+-------+-------+------------------------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+si $[R_{s}] == [R_{t}]$ entonces $PC \leftarrow [PC] + 4 + ( [I_{15}]^{14} || [I_{15..0}] || 0^{2} )$ o sea: $PC \leftarrow [PC] + 4 + 4*offset$
+
+sino $PC \leftarrow [PC] + 4$
+
+Ensamblador: $beq\hspace{5pt}R_{s}, R_{t}, offset$
+
+% ---------------------------------- bne --------------------------------------
+
+\subsubsection*{Branch on not equal: \textbf{bne}}
+
+\begin{verbatim}
+                     +--------+-------+-------+------------------------+ 
+Formato de tipo I:   | 000101 |   Rs  |   Rt  |        offset          | 
+                     +--------+-------+-------+------------------------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+si $[R_{s}] <> [R_{t}]$ entonces $PC \leftarrow [PC] + 4 + ( [I_{15}]^{14} || [I_{15..0}] || 0^{2} )$ o sea: $PC \leftarrow [PC] + 4 + 4*offset$
+
+sino $PC \leftarrow [PC] + 4$
+
+Ensamblador: $bne\hspace{5pt}R_{s}, R_{t}, offset$
+
+% ---------------------------------- blez --------------------------------------
+
+\subsubsection*{Branch on less than or equal zero: \textbf{blez}}
+
+\begin{verbatim}
+                     +--------+-------+-------+------------------------+ 
+Formato de tipo I:   | 000110 |   Rs  |   Rt  |        offset          | 
+                     +--------+-------+-------+------------------------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+si $[R_{s}] <= 0$ entonces $PC \leftarrow [PC] + 4 + ( [I_{15}]^{14} || [I_{15..0}] || 0^{2} )$ o sea: $PC \leftarrow [PC] + 4 + 4*offset$
+
+sino $PC \leftarrow [PC] + 4$
+
+Ensamblador: $blez\hspace{5pt}R_{s}, offset$
+
+% ---------------------------------- bgtz --------------------------------------
+
+\subsubsection*{Branch on greater than zero: \textbf{bgtz}}
+
+\begin{verbatim}
+                     +--------+-------+-------+------------------------+ 
+Formato de tipo I:   | 000111 |   Rs  |   Rt  |        offset          | 
+                     +--------+-------+-------+------------------------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+si $[R_{s}] > 0$ entonces $PC \leftarrow [PC] + 4 + ( [I_{15}]^{14} || [I_{15..0}] || 0^{2} )$ o sea: $PC \leftarrow [PC] + 4 + 4*offset$
+
+sino $PC \leftarrow [PC] + 4$
+
+Ensamblador: $bgtz\hspace{5pt}R_{s}, offset$
+
+% ---------------------------------- bltz --------------------------------------
+
+\subsubsection*{Branch on less than zero: \textbf{bltz}}
+
+\begin{verbatim}
+                     +--------+-------+-------+------------------------+ 
+Formato de tipo I:   | 000001 |   Rs  |   Rt  |        offset          | 
+                     +--------+-------+-------+------------------------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+si $[R_{s}] < 0$ entonces $PC \leftarrow [PC] + 4 + ( [I_{15}]^{14} || [I_{15..0}] || 0^{2} )$ o sea: $PC \leftarrow [PC] + 4 + 4*offset$
+
+sino $PC \leftarrow [PC] + 4$
+
+Ensamblador: $bltz\hspace{5pt}R_{s}, offset$
+
+% ---------------------------------- j --------------------------------------
+
+\subsubsection*{Jump: \textbf{j}}
+
+\begin{verbatim}
+                     +--------+----------------------------------------+ 
+Formato de tipo J:   | 000010 |                destino                 | 
+                     +--------+----------------------------------------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$PC \leftarrow [PC_{31..28}] || [I_{25..0}] || 0^{2} $
+
+Ensamblador: $j\hspace{5pt} destino$
+
+% ---------------------------------- jr --------------------------------------
+
+\subsubsection*{Jump register: \textbf{jr}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 000000 |   Rs  | 00000 | 00000 | 00000 | 001000 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$PC \leftarrow [R_s]$
+
+Ensamblador: $jr\hspace{5pt}R_{s}$
+
+% ---------------------------------- mfhi --------------------------------------
+
+\subsubsection*{Move from Hi: \textbf{mfhi}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 000000 | 00000 | 00000 |  Rd   | 00000 | 010000 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$R_d \leftarrow [Hi]$
+
+$PC \leftarrow [PC] + 4$
+
+Ensamblador: $mfhi\hspace{5pt}R_{d}$
+
+% ---------------------------------- mflo --------------------------------------
+
+\subsubsection*{Move from Lo: \textbf{mflo}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 000000 | 00000 | 00000 |  Rd   | 00000 | 010010 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+$R_d \leftarrow [Lo]$
+
+$PC \leftarrow [PC] + 4$
+
+Ensamblador: $mflo\hspace{5pt}R_{d}$
+
+\subsection*{Instrucciones especiales}
+
+Las siguientes instrucciones no son realistas pero son necesarias para simular una entrada de teclado y una terminal
+sin complicar la interfaz de simulación.
+
+% ---------------------------------- halt --------------------------------------
+
+\subsubsection*{Halt program: \textbf{halt}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 111111 | 00000 | 00000 | 00000 | 00000 | 111111 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+- Detiene la simulación del programa actual.
+
+Ensamblador: $halt$
+
+% ---------------------------------- tty --------------------------------------
+
+\subsubsection*{Write to terminal: \textbf{tty}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 111111 |   Rs  | 00000 | 00000 | 00000 | 000001 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+Envia un caracter a la pantalla  conectada al procesador (TTY). La pantalla es un circuito síncrono.
+Para enviar un caracter, se ponen los 7 bits menos significativos de Rs en la salida TTY DATA del procesador, 
+se activa la salida TTY ENABLE y en el próximo ciclo la pantalla mostrará el caracter ASCII correspondiente 
+a los 7 bits de TTY DATA.
+
+Ensamblador: $tty\hspace{5pt}R_s$
+
+% ---------------------------------- rnd --------------------------------------
+
+\subsubsection*{Set random: \textbf{rnd}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 111111 | 00000 | 00000 |   Rd  | 00000 | 000010 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+Almacena en Rd un número aleatorio.
+
+Ensamblador: $rnd\hspace{5pt}R_s$
+
+% ---------------------------------- kbd --------------------------------------
+
+\subsubsection*{Set key: \textbf{kbd}}
+
+\begin{verbatim}
+                     +--------+-------+-------+-------+-------+--------+ 
+Formato de tipo R:   | 111111 | 00000 | 00000 |   Rd  | 00000 | 000100 | 
+                     +--------+-------+-------+-------+-------+--------+ 
+\end{verbatim}
+
+Efectos de la instrucción: 
+
+Esta instrucción lee un caracter del teclado y lo almacena en Rd.
+La entrada KBD AVAILABLE del procesador indica si hay algún caracter
+esperando en el buffer del teclado y la entrada KBD DATA, es un número
+de 7 bits que corresponde al código ASCII del caracter que está en
+la punta del buffer. El buffer del teclado funciona como una cola.
+Los caracteres se añaden a la cola cuando se teclea.
+En cada ciclo de reloj, si KBD ENABLE está activa, el teclado elimina
+el caracter que está en la punta de la cola.
+
+Si en el momento que esta instrucción se ejecuta, KBD AVAILABLE está
+desactivada, en Rd se almacena el valor $-1$.
+
+Ensamblador: $kbd\hspace{5pt}R_s$
+
+% \subsection*{PUSH RA}
+%     Esta instrucción almacena en el tope de la pila el valor del
+%     registro RA. La pila es simplemente el lugar de la memoria
+%     al que señala el registro SP. Es un convenio común que la pila
+%     ``crezca hacia abajo''. O sea, que SP empiece en un valor alto
+%     y vaya decreciendo con cada PUSH y creciendo con cada POP.
+%     Como los registros son de 32 bits, SP cambia de 4 en 4 con
+%     cada PUSH y POP. Esta instrucción sería equivalente,
+%     pero más rápida, que:
+
+% \verb|    SUB SP,SP,4   | $\leftarrow$ \phantom{xx} Decrementa \verb|SP| en 4
+
+% \verb|    MOV [SP],RA   | $\leftarrow$ \phantom{xx} Guarda \verb|RA| en \verb|RAM[SP]|
+
+%     Codificación:
+
+% \verb|    001000 .... xxxx ..................|
+
+%     Ejemplo:
+
+% \verb|    PUSH R9  | $\rightarrow$ \verb|  001000 0000 1001 000000000000000000|
+
+% \subsection*{POP RD}
+%     Esta instrucción almacena en RD el valor que está en el tope
+%     de la pila y lo ``expulsa''. Realmente, basta con incrementar
+%     SP en 4. Es equivalente, pero más rápida, que:
+
+% \verb|    MOV RD,[SP]  | $\leftarrow$ \phantom{xx} Guarda en \verb|RA| el valor de \verb|RAM[SP]|
+
+% \verb|    ADD SP,SP,4  | $\leftarrow$ \phantom{xx} Incrementa \verb|SP| en 2
+
+%     Codificación:
+
+% \verb|    001001 xxxx .... ..................|
+
+%     Ejemplo:
+
+% \verb|    POP R9  | $\rightarrow$ \verb|  001001 1001 0000 000000000000000000|
+
+
+
+\section*{Program Counter}
+
+  El valor del registro Program Counter (PC) representa la dirección de memoria de la
+  próxima instrucción que se va a ejecutar. Como en S-MIPS las instrucciones
+  ocupan 4 bytes, cada vez que el procesador ejecuta una instrucción que no sea
+  de salto el valor de PC aumenta en 4.
+  
+  Las instrucciones de salto (beq, bne, blez, ...) suman su argumento (en complemento a 2) al de PC.
+  El argumento indica el número de instrucciones a saltarse,por tanto es necesario multiplicar el 
+  argumento por 4 antes de sumarlo al program counter.
+  
+  Como resultado de esto, si un programa quisiera saltarse una instrucción, debe
+  hacer un salto con argumento 1:
+  
+  \verb|    add R3, R0, 46 |
+  
+  \verb|    add R4, R0, 46 |
+
+  \verb|    beq R3, R4, 1 |
+
+  \verb|    halt |
+
+  En este ejemplo la instrucción halt simpre se salta. Otro resultado de este comportamiento 
+  es que \verb|beq R0, R0, 0| es lo mismo que \verb|nop| y \verb|beq R0, R0, -1| es un ciclo infinito.
+
+\section*{Acceso a la memoria}
+  
+  La memoria, para el programador de S-MIPS, es un array plano de 1MB,
+  direccionable a nivel de 1 byte. La instrucción \textbf{lw} cuenta con 32 bits para direccionar
+  la memoria RAM pero en el board utilizado solo hay instalados 1MB de memoria
+  por tanto solo se van a utilizar para direccionar los valores en la RAM los 20 primeros bits de esta. 
+  Nótese además que las transferencias entre la RAM y el procesador ocurren siempre en bloques de 4 bytes (32 bits).
+  
+  El procesador puede ignorar cualquier dirección de memoria que no sea divisible
+  entre 4 e interpretarla como si fuera el número divisible por 4 más cercano por debajo. O sea las instrucciones
+  \verb|lw R3, 0(R0)|, \verb|lw R3, 1(R0)|, \verb|lw R3, 2(R0)| y \verb|lw R3, 3(R0)| hacen lo mismo.
+  
+  Igualmente si un programa hace:
+  
+  \verb|    lw R3, 0(R0)|
+  
+  al registro R3 se copiarán los bytes 0, 1, 2 y 3 de la RAM. 
+  
+  S-MIPS es una arquitectura Little-Endian, que significa que, en cada
+  palabra de 32 bits, el byte con dirección más pequeña es el menos significativo
+  y el de dirección más grande es el más significativo. Esto luce ``al revés''
+  de cómo se escriben normalmente los números.
+  
+  Supongamos que los primeros bytes de la RAM tienen estos valores:
+
+\begin{center}
+  \begin{minipage}[c]{2in}
+    \begin{tabular}{*{7}{c}}
+    0 & 1 & 2 & 3 & 4 & 5 &
+    \end{tabular}
+
+    \begin{tabular}{*{7}{|c}}
+    \hline
+    1 & 2 & 0 & 0 & 1 & 2 & $\cdots$ \\
+    \hline
+    \end{tabular} 
+  \end{minipage}
+\end{center}
+  
+  Al hacer
+  
+  \verb|    lw R3, 0(R0)|
+
+  el byte 0 de la RAM, que tiene el valor 1 (00000001) va hacia la parte menos
+  significative de R3 y el byte 3, con valor 0 (00000000), va hacia la más significativa.
+  El valor final de R3 sería $2^9 + 2^0 = 513$
+  
+  Las escrituras se comportan de igual forma. Si se hace:
+  
+  \verb|    add R3, R0, 1027 |
+  
+  \verb|    sw  R3, 0(R0) |
+  
+  se escribirán para el byte 0 de la RAM la parte menos significativa del
+  valor 1027 y para el byte 3 la parte más significativa.
+  
+  1027 es 00000000 00000000 00000100 00000011 en binario. El byte más significativo es 0
+  y el menos significativo es 3 ($1027 = 2^{10} + 2^{1} + 2^{0}$). Así que la memoria
+  quedaría así:
+  
+ \begin{center}
+  \begin{minipage}[c]{2in}
+    \begin{tabular}{*{7}{c}}
+    0 & 1 & 2 & 3 & 4 & 5 &
+    \end{tabular}
+
+    \begin{tabular}{*{7}{|c}}
+    \hline
+    3 & 4 & 0 & 0 & 1 & 2 & $\cdots$ \\
+    \hline
+    \end{tabular} 
+  \end{minipage}
+\end{center}
+    
+\section*{Interfaz con la memoria}
+  
+  El módulo RAM del circuito S-MIPS Board implementa una memoria asíncrona de
+  1MB. Esta memoria está organizada en 65536 bloques de 16 bytes. Esta RAM es más
+  lenta que el procesador, y le toma varios ciclos leer y escribir datos. La
+  cantidad de ciclos que toma hacer una lectura o una escritura están,
+  respectivamente, en las salidas RT (Read Time) y WT (Write Time) que no cambian
+  durtante la ejecución de un programa.
+  
+  (Aunque estas salidas sean constantes, no se deben usar sus valores ``a mano''
+  dentro del CPU. Hay que obtenerlos de la RAM.  Los profesores vamos a probar
+  distintas combinaciones de esos valores durante la verificación del procesador
+  y este debe comportarse en concordancia.)
+  
+  Como la RAM tiene 65536 bloques, su entrada ADDR es de 16 bits.  Después de
+  pasados RT ciclos de CPU de establecerse esa entrada, si la entrada CS (Chip
+  Select) está en 1 y la entrada $\neg$R/W está en 0, la RAM proporcina los 16 bytes
+  del bloque seleccionado mediante las 4 salidas de 32 bits O0, O1, O2 y O3.
+  
+  Análogamente, hay 4 entradas de 32 bits, I0, I1, I2 e I3, por las que se envían
+  a la RAM valores para ser escritos en la dirección ADDR. Sin embargo, la
+  escritura puede hacerse parcialmente, usando la entrada MASK.
+  
+  La RAM está dividida en 4 bancos que actúan como columnas o slices.  Cada
+  bloque de 16 bytes de la RAM por tanto está dividido en 4 palabras de 4 bytes
+  (32 bits). Los primeros 32 bytes de la RAM lucen así:
+  \vspace{-0.5em}
+  \begin{center}
+  \begin{minipage}[c]{5.5in}
+   \begin{multicols}{5}
+    \centering
+    Banco 0
+
+    \begin{tabular}{|c|}
+     \hline
+     \verb| 00 01 02 03 | \\
+     \verb| 16 17 16 19 | \\
+     \verb| 32 33 34 35 | \\
+     \verb| 48 49 50 51 | \\
+     $\vdots$
+    \end{tabular}
+    \columnbreak
+
+    Banco 1
+
+    \begin{tabular}{|c|}
+     \hline
+     \verb| 04 05 06 07 | \\
+     \verb| 20 21 22 23 | \\
+     \verb| 36 37 38 39 | \\
+     \verb| 52 53 54 55 | \\
+     $\vdots$
+    \end{tabular}
+   \columnbreak
+
+    Banco 2
+
+    \begin{tabular}{|c|}
+     \hline
+     \verb| 08 09 10 11 | \\
+     \verb| 24 25 26 27 | \\
+     \verb| 40 41 42 43 | \\
+     \verb| 56 57 58 59 | \\
+     $\vdots$
+    \end{tabular}
+    \columnbreak
+
+    Banco 3
+
+    \begin{tabular}{|c|}
+     \hline
+     \verb| 12 13 14 15 | \\
+     \verb| 28 29 30 31 | \\
+     \verb| 44 45 46 47 | \\
+     \verb| 60 61 62 63 | \\
+     $\vdots$
+    \end{tabular}
+    \columnbreak
+
+    \phantom{Banco X}
+    \begin{tabular}{c}
+     $\leftarrow$ Bloque 0 \\
+     $\leftarrow$ Bloque 1 \\
+     $\leftarrow$ Bloque 2 \\
+     $\leftarrow$ Bloque 3 \\
+     $\vdots$
+    \end{tabular}
+
+   \end{multicols}
+  \end{minipage}
+  \end{center}
+  
+  La entrada MASK es una entrada de 4 bits que selecciona cuál o cuales bancos
+  van a ser modificados por una operación de escritura.  El bit menos
+  significativo de MASK selecciona el Banco 0, el más significativo selecciona el
+  Banco 3.
+  
+  Por ejemplo, si la entrada MASK tiene el valor 8 (en binario 1000) y la entrada
+  ADDR es 0, la escritura solo afectaría los bytes 12, 13, 14 y 15 de la RAM, pues estos
+  están en el bloque 0 y en el banco 3.  En esos 4 bytes se escribiría el valor
+  de la entrada I3 (Data Input 3).
+  
+  Si la entrada MASK fuera 12 y ADDR fuera 2 (en binario 1100), la escritura
+  modificaría los bytes 40, 41, 42, 43 y 44, 45, 46, 47 (bloque 2, bancos 2 y 3).  
+  En esos 16 bytes se escribirían los valores de las entradas I2 e I3.
+  
+  Las entrada MASK no afecta las operaciones de lectura. Las salidas O0, O1, O2, O3
+  siempre contienen el bloque completo solicitado en ADDR.
+  
+  Las escrituras se realizan cuando CS es 1 y $\neg$R/W es 1 y toman la cantidad de
+  ciclos de CPU que indica la salida WT.  
+  
+\section*{Caché}
+  
+  La implementación del procesador S-MIPS debe incluir una caché de instrucciones y 
+  una cache de datos para acelearar el proceso de lectura y/o escritura en la RAM. En ambos casos se puede
+  aprovechar el hecho de que a partir de una sola lectura de la RAM se obtiene un bloque completo de 4 x 32bits.
+
+  \textbf{Nota:} En caso de no implementar ningun tipo de caché la nota máxima a obtener es de 4ptos.
+  
+\section*{Costo y Presupuesto}
+  
+  El procesador va a tener un presupuesto máximo. Cada componente utilizada tiene un
+  costo asociado y el costo total del procesador no puede tener un precio mayor de 100.
+  Adjuto a este PDF encontrará un script \verb|price.py| que le permite calcular el costo de un circuito, 
+  ejecute \verb|python price.py -h| para ver la ayuda. Los costos específicos de cada componente se pueden 
+  consultar en el código fuente de este script.
+  
+\section*{Evaluación}
+  
+  El proyecto debe realizarse en equipos de no más de dos (2) estudiantes. El
+  plazo para entregar los proyectos es el viernes 28 de abril de 2017. Después de
+  la entrega, se realizará una revisión oral con un profesor y los miembros de
+  cada equipo.
+
+  Se puede entregar y revisarse en cualquier momento antes de la expiración del plazo.
+
+  Pasar todos los casos de prueba es un requisito para realizar la revisión oral.
+  El proyecto no se aprueba si el circuito no ha pasado todas la pruebas antes de o en el día de la entrega. 
+  Ninguno de los casos de prueba obligatorios comprueban la existencia y/o funcinamiento de una memoria caché.
+
+  La nota del proyecto se decide en la revisión oral. 
+
+\section*{Cambios}
+
+\subsection*{v1.1}
+  \begin{itemize}
+    \item Se cambió el opcode de la instrucción \textbf{bgtz} y \textbf{bltz} para evitar colisión con \textbf{blez}. 
+    \item El script \textit{price.py} para el cálculo del precio del procesador devuelve un precio 1000 veces menor.
+    \item Bajó el costo máximo permitido de 1000 unidades a 100.
+    \item El registro destino de las instrucciones \textbf{rnd} y \textbf{kbd} ahora es Rd (era Rs).
+  \end{itemize}
+
+\end{document}

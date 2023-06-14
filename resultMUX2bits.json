@@ -1,0 +1,28 @@
+{
+    "MUX2bits": {
+        "amount": 1,
+        "price": 0.394,
+        "parts": {
+            "Decoder": {
+                "amount": 1,
+                "total cost": 0.01
+            },
+            "Tunnel": {
+                "amount": 18,
+                "total cost": 0.0
+            },
+            "Controlled Buffer": {
+                "amount": 4,
+                "total cost": 0.384
+            },
+            "Pin": {
+                "amount": 6,
+                "total cost": 0.0
+            },
+            "Wire": {
+                "amount": 29,
+                "total cost": 0.0
+            }
+        }
+    }
+}

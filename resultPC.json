@@ -1,0 +1,48 @@
+{
+    "PC": {
+        "price": 2.1510000000000002,
+        "amount": 1,
+        "parts": {
+            "Multiplexer": {
+                "total cost": 1.26,
+                "amount": 2
+            },
+            "Constant": {
+                "total cost": 0.0,
+                "amount": 4
+            },
+            "Text": {
+                "total cost": 0.0,
+                "amount": 10
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 62
+            },
+            "Splitter": {
+                "total cost": 0.0,
+                "amount": 12
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 7
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 30
+            },
+            "Register": {
+                "total cost": 0.768,
+                "amount": 1
+            },
+            "AND Gate": {
+                "total cost": 0.003,
+                "amount": 1
+            },
+            "Adder": {
+                "total cost": 0.12,
+                "amount": 1
+            }
+        }
+    }
+}

@@ -1,0 +1,1000 @@
+{
+    "MUX1bit": {
+        "parts": {
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 16
+            },
+            "Decoder": {
+                "total cost": 0.002,
+                "amount": 1
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 4
+            },
+            "Controlled Buffer": {
+                "total cost": 0.192,
+                "amount": 2
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 10
+            }
+        },
+        "price": 0.194,
+        "amount": 16
+    },
+    "PC": {
+        "parts": {
+            "Multiplexer": {
+                "total cost": 0.3,
+                "amount": 1
+            },
+            "Text": {
+                "total cost": 0.0,
+                "amount": 19
+            },
+            "Register": {
+                "total cost": 0.768,
+                "amount": 1
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 86
+            },
+            "Constant": {
+                "total cost": 0.0,
+                "amount": 4
+            },
+            "PC(AuxCirc1)": {
+                "total cost": 0.09100000000000005,
+                "amount": 1
+            },
+            "AND Gate": {
+                "total cost": 0.003,
+                "amount": 1
+            },
+            "Adder": {
+                "total cost": 0.12,
+                "amount": 1
+            },
+            "Splitter": {
+                "total cost": 0.0,
+                "amount": 14
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 40
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 11
+            },
+            "MUX2bits": {
+                "total cost": 0.394,
+                "amount": 1
+            }
+        },
+        "price": 1.676,
+        "amount": 1
+    },
+    "MemoryWriter": {
+        "parts": {
+            "Decoder": {
+                "total cost": 0.01,
+                "amount": 1
+            },
+            "Counter": {
+                "total cost": 0.112,
+                "amount": 1
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 94
+            },
+            "OR Gate": {
+                "total cost": 0.012,
+                "amount": 4
+            },
+            "Comparator": {
+                "total cost": 0.032,
+                "amount": 1
+            },
+            "Splitter": {
+                "total cost": 0.0,
+                "amount": 4
+            },
+            "D Flip-Flop": {
+                "total cost": 0.048,
+                "amount": 2
+            },
+            "Demultiplexer": {
+                "total cost": 0.014,
+                "amount": 2
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 10
+            },
+            "Constant": {
+                "total cost": 0.0,
+                "amount": 1
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 47
+            }
+        },
+        "price": 0.22800000000000004,
+        "amount": 1
+    },
+    "RF": {
+        "parts": {
+            "MUX1bit": {
+                "total cost": 0.388,
+                "amount": 2
+            },
+            "Subtractor": {
+                "total cost": 0.128,
+                "amount": 1
+            },
+            "Text": {
+                "total cost": 0.0,
+                "amount": 10
+            },
+            "Register": {
+                "total cost": 24.57600000000001,
+                "amount": 32
+            },
+            "Random": {
+                "total cost": 0.16,
+                "amount": 1
+            },
+            "Demultiplexer": {
+                "total cost": 0.217,
+                "amount": 1
+            },
+            "MUX5bits": {
+                "total cost": 6.284000000000003,
+                "amount": 2
+            },
+            "Constant": {
+                "total cost": 0.0,
+                "amount": 5
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 305
+            },
+            "AND Gate": {
+                "total cost": 0.005,
+                "amount": 1
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 813
+            },
+            "OR Gate": {
+                "total cost": 0.004,
+                "amount": 1
+            },
+            "Adder": {
+                "total cost": 0.128,
+                "amount": 1
+            },
+            "Splitter": {
+                "total cost": 0.0,
+                "amount": 3
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 18
+            },
+            "MUX3bits(Transistors)": {
+                "total cost": 0.056000000000000015,
+                "amount": 1
+            },
+            "MUX2bits": {
+                "total cost": 0.394,
+                "amount": 1
+            }
+        },
+        "price": 32.34000000000002,
+        "amount": 1
+    },
+    "Switcher": {
+        "parts": {
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 2
+            },
+            "Splitter": {
+                "total cost": 0.0,
+                "amount": 2
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 2
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 4
+            }
+        },
+        "price": 0.0,
+        "amount": 8
+    },
+    "unsignedMult": {
+        "parts": {
+            "Multiplier": {
+                "total cost": 4.096,
+                "amount": 1
+            },
+            "Text": {
+                "total cost": 0.0,
+                "amount": 7
+            },
+            "Adder": {
+                "total cost": 0.384,
+                "amount": 3
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 63
+            },
+            "Splitter": {
+                "total cost": 0.0,
+                "amount": 18
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 4
+            },
+            "Constant": {
+                "total cost": 0.0,
+                "amount": 8
+            },
+            "MUX2bits": {
+                "total cost": 0.394,
+                "amount": 1
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 42
+            }
+        },
+        "price": 4.8740000000000006,
+        "amount": 1
+    },
+    "ID": {
+        "parts": {
+            "MUX1bit": {
+                "total cost": 0.5820000000000001,
+                "amount": 3
+            },
+            "Text": {
+                "total cost": 0.0,
+                "amount": 21
+            },
+            "StoreWord": {
+                "total cost": 0.068,
+                "amount": 1
+            },
+            "NOR Gate": {
+                "total cost": 0.013999999999999999,
+                "amount": 2
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 818
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 439
+            },
+            "AND Gate": {
+                "total cost": 0.3010000000000002,
+                "amount": 38
+            },
+            "Multiplexer": {
+                "total cost": 0.05,
+                "amount": 1
+            },
+            "OR Gate": {
+                "total cost": 0.15800000000000003,
+                "amount": 21
+            },
+            "LoadWord": {
+                "total cost": 0.136,
+                "amount": 2
+            },
+            "Splitter": {
+                "total cost": 0.0,
+                "amount": 51
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 31
+            },
+            "StoreWord(Push)": {
+                "total cost": 0.068,
+                "amount": 1
+            }
+        },
+        "price": 1.3769999999999996,
+        "amount": 1
+    },
+    "signedDivider": {
+        "parts": {
+            "MUX1bit": {
+                "total cost": 0.388,
+                "amount": 2
+            },
+            "Divider": {
+                "total cost": 4.096,
+                "amount": 1
+            },
+            "Negator": {
+                "total cost": 0.256,
+                "amount": 4
+            },
+            "Text": {
+                "total cost": 0.0,
+                "amount": 8
+            },
+            "Adder": {
+                "total cost": 0.512,
+                "amount": 4
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 100
+            },
+            "Splitter": {
+                "total cost": 0.0,
+                "amount": 4
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 4
+            },
+            "Constant": {
+                "total cost": 0.0,
+                "amount": 2
+            },
+            "MUX2bits": {
+                "total cost": 0.788,
+                "amount": 2
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 48
+            }
+        },
+        "price": 6.040000000000001,
+        "amount": 1
+    },
+    "MUX1bit(4Data)": {
+        "parts": {
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 16
+            },
+            "Decoder": {
+                "total cost": 0.002,
+                "amount": 1
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 4
+            },
+            "Controlled Buffer": {
+                "total cost": 0.024,
+                "amount": 2
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 10
+            }
+        },
+        "price": 0.026000000000000002,
+        "amount": 15
+    },
+    "CACHE": {
+        "parts": {
+            "MUX1bit": {
+                "total cost": 0.97,
+                "amount": 5
+            },
+            "MemoryWriter": {
+                "total cost": 0.22800000000000004,
+                "amount": 1
+            },
+            "Switcher": {
+                "total cost": 0.0,
+                "amount": 8
+            },
+            "Demultiplexer": {
+                "total cost": 0.16100000000000003,
+                "amount": 9
+            },
+            "Constant": {
+                "total cost": 0.0,
+                "amount": 12
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 687
+            },
+            "Comparator": {
+                "total cost": 0.304,
+                "amount": 4
+            },
+            "Splitter": {
+                "total cost": 0.0,
+                "amount": 37
+            },
+            "MUX1bit(4Data)": {
+                "total cost": 0.3900000000000001,
+                "amount": 15
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 23
+            },
+            "D Flip-Flop": {
+                "total cost": 0.144,
+                "amount": 6
+            },
+            "MUX2bits": {
+                "total cost": 0.788,
+                "amount": 2
+            },
+            "AND Gate": {
+                "total cost": 0.10800000000000005,
+                "amount": 36
+            },
+            "MemoryReader": {
+                "total cost": 0.21500000000000002,
+                "amount": 1
+            },
+            "Text": {
+                "total cost": 0.0,
+                "amount": 22
+            },
+            "Register": {
+                "total cost": 28.99200000000001,
+                "amount": 56
+            },
+            "MUX1bit(15Data)": {
+                "total cost": 0.368,
+                "amount": 4
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 1790
+            },
+            "Priority Encoder": {
+                "total cost": 0.032,
+                "amount": 1
+            },
+            "Multiplexer": {
+                "total cost": 1.4300000000000002,
+                "amount": 15
+            },
+            "XOR Gate": {
+                "total cost": 0.005,
+                "amount": 1
+            },
+            "OR Gate": {
+                "total cost": 0.2240000000000001,
+                "amount": 25
+            },
+            "MUX3bits(Transistors)": {
+                "total cost": 0.44800000000000006,
+                "amount": 8
+            },
+            "Random": {
+                "total cost": 0.01,
+                "amount": 1
+            },
+            "MUX3bits(4Data)": {
+                "total cost": 0.11999999999999998,
+                "amount": 1
+            }
+        },
+        "price": 34.93700000000004,
+        "amount": 1
+    },
+    "MUX2bits": {
+        "parts": {
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 29
+            },
+            "Decoder": {
+                "total cost": 0.01,
+                "amount": 1
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 6
+            },
+            "Controlled Buffer": {
+                "total cost": 0.384,
+                "amount": 4
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 18
+            }
+        },
+        "price": 0.394,
+        "amount": 9
+    },
+    "S-MIPS": {
+        "parts": {
+            "MUX1bit": {
+                "total cost": 0.5820000000000001,
+                "amount": 3
+            },
+            "PC": {
+                "total cost": 1.676,
+                "amount": 1
+            },
+            "Text": {
+                "total cost": 0.0,
+                "amount": 9
+            },
+            "Register": {
+                "total cost": 0.768,
+                "amount": 1
+            },
+            "RF": {
+                "total cost": 32.34000000000002,
+                "amount": 1
+            },
+            "ID": {
+                "total cost": 1.3769999999999996,
+                "amount": 1
+            },
+            "ALU": {
+                "total cost": 22.672,
+                "amount": 1
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 207
+            },
+            "Constant": {
+                "total cost": 0.0,
+                "amount": 1
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 139
+            },
+            "OR Gate": {
+                "total cost": 0.003,
+                "amount": 1
+            },
+            "CACHE": {
+                "total cost": 34.93700000000004,
+                "amount": 1
+            },
+            "Splitter": {
+                "total cost": 0.0,
+                "amount": 2
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 23
+            },
+            "ControlUnit": {
+                "total cost": 0.10500000000000001,
+                "amount": 1
+            }
+        },
+        "price": 94.46000000000006,
+        "amount": 1
+    },
+    "MemoryReader": {
+        "parts": {
+            "Comparator": {
+                "total cost": 0.032,
+                "amount": 1
+            },
+            "Counter": {
+                "total cost": 0.112,
+                "amount": 1
+            },
+            "OR Gate": {
+                "total cost": 0.009000000000000001,
+                "amount": 3
+            },
+            "Constant": {
+                "total cost": 0.0,
+                "amount": 1
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 82
+            },
+            "D Flip-Flop": {
+                "total cost": 0.048,
+                "amount": 2
+            },
+            "Demultiplexer": {
+                "total cost": 0.014,
+                "amount": 2
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 8
+            },
+            "Splitter": {
+                "total cost": 0.0,
+                "amount": 3
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 39
+            }
+        },
+        "price": 0.21500000000000002,
+        "amount": 1
+    },
+    "StoreWord": {
+        "parts": {
+            "OR Gate": {
+                "total cost": 0.006,
+                "amount": 2
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 33
+            },
+            "D Flip-Flop": {
+                "total cost": 0.048,
+                "amount": 2
+            },
+            "Demultiplexer": {
+                "total cost": 0.014,
+                "amount": 2
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 6
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 20
+            }
+        },
+        "price": 0.068,
+        "amount": 1
+    },
+    "MUX1bit(15Data)": {
+        "parts": {
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 16
+            },
+            "Decoder": {
+                "total cost": 0.002,
+                "amount": 1
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 4
+            },
+            "Controlled Buffer": {
+                "total cost": 0.09,
+                "amount": 2
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 10
+            }
+        },
+        "price": 0.092,
+        "amount": 4
+    },
+    "ALU": {
+        "parts": {
+            "MUX1bit": {
+                "total cost": 0.194,
+                "amount": 1
+            },
+            "Subtractor": {
+                "total cost": 0.128,
+                "amount": 1
+            },
+            "Text": {
+                "total cost": 0.0,
+                "amount": 32
+            },
+            "Register": {
+                "total cost": 1.536,
+                "amount": 2
+            },
+            "signedDivider": {
+                "total cost": 6.040000000000001,
+                "amount": 1
+            },
+            "NOR Gate": {
+                "total cost": 0.16,
+                "amount": 1
+            },
+            "unsignedMult": {
+                "total cost": 4.8740000000000006,
+                "amount": 1
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 266
+            },
+            "Constant": {
+                "total cost": 0.0,
+                "amount": 6
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 98
+            },
+            "AND Gate": {
+                "total cost": 0.096,
+                "amount": 1
+            },
+            "Comparator": {
+                "total cost": 0.288,
+                "amount": 2
+            },
+            "XOR Gate": {
+                "total cost": 0.096,
+                "amount": 1
+            },
+            "Divider": {
+                "total cost": 4.096,
+                "amount": 1
+            },
+            "OR Gate": {
+                "total cost": 0.096,
+                "amount": 1
+            },
+            "Multiplier": {
+                "total cost": 4.096,
+                "amount": 1
+            },
+            "Adder": {
+                "total cost": 0.128,
+                "amount": 1
+            },
+            "MUX3bits(Transistors)": {
+                "total cost": 0.056000000000000015,
+                "amount": 1
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 14
+            },
+            "Splitter": {
+                "total cost": 0.0,
+                "amount": 6
+            },
+            "MUX2bits": {
+                "total cost": 0.788,
+                "amount": 2
+            }
+        },
+        "price": 22.672,
+        "amount": 1
+    },
+    "MUX5bits": {
+        "parts": {
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 213
+            },
+            "Decoder": {
+                "total cost": 0.07,
+                "amount": 1
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 34
+            },
+            "Controlled Buffer": {
+                "total cost": 3.0720000000000014,
+                "amount": 32
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 130
+            }
+        },
+        "price": 3.1420000000000017,
+        "amount": 2
+    },
+    "PC(AuxCirc1)": {
+        "parts": {
+            "AND Gate": {
+                "total cost": 0.049000000000000016,
+                "amount": 12
+            },
+            "NOT Gate": {
+                "total cost": 0.02800000000000001,
+                "amount": 14
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 167
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 8
+            },
+            "OR Gate": {
+                "total cost": 0.014,
+                "amount": 2
+            }
+        },
+        "price": 0.09100000000000005,
+        "amount": 1
+    },
+    "ControlUnit": {
+        "parts": {
+            "AND Gate": {
+                "total cost": 0.003,
+                "amount": 1
+            },
+            "OR Gate": {
+                "total cost": 0.009000000000000001,
+                "amount": 3
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 73
+            },
+            "D Flip-Flop": {
+                "total cost": 0.07200000000000001,
+                "amount": 3
+            },
+            "Demultiplexer": {
+                "total cost": 0.021,
+                "amount": 3
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 9
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 33
+            }
+        },
+        "price": 0.10500000000000001,
+        "amount": 1
+    },
+    "LoadWord": {
+        "parts": {
+            "OR Gate": {
+                "total cost": 0.006,
+                "amount": 2
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 33
+            },
+            "D Flip-Flop": {
+                "total cost": 0.048,
+                "amount": 2
+            },
+            "Demultiplexer": {
+                "total cost": 0.014,
+                "amount": 2
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 6
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 20
+            }
+        },
+        "price": 0.068,
+        "amount": 2
+    },
+    "MUX3bits(Transistors)": {
+        "parts": {
+            "Transistor": {
+                "total cost": 0.016,
+                "amount": 8
+            },
+            "NOT Gate": {
+                "total cost": 0.016,
+                "amount": 1
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 113
+            },
+            "Splitter": {
+                "total cost": 0.0,
+                "amount": 2
+            },
+            "Decoder": {
+                "total cost": 0.024,
+                "amount": 1
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 10
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 50
+            }
+        },
+        "price": 0.056000000000000015,
+        "amount": 10
+    },
+    "StoreWord(Push)": {
+        "parts": {
+            "OR Gate": {
+                "total cost": 0.006,
+                "amount": 2
+            },
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 42
+            },
+            "D Flip-Flop": {
+                "total cost": 0.048,
+                "amount": 2
+            },
+            "Demultiplexer": {
+                "total cost": 0.014,
+                "amount": 2
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 9
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 26
+            }
+        },
+        "price": 0.068,
+        "amount": 1
+    },
+    "MUX3bits(4Data)": {
+        "parts": {
+            "Wire": {
+                "total cost": 0.0,
+                "amount": 57
+            },
+            "Decoder": {
+                "total cost": 0.024,
+                "amount": 1
+            },
+            "Pin": {
+                "total cost": 0.0,
+                "amount": 10
+            },
+            "Controlled Buffer": {
+                "total cost": 0.09599999999999999,
+                "amount": 8
+            },
+            "Tunnel": {
+                "total cost": 0.0,
+                "amount": 34
+            }
+        },
+        "price": 0.11999999999999998,
+        "amount": 1
+    }
+}
